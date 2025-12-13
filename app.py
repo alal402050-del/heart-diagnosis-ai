@@ -118,3 +118,4 @@ async def predict(payload: PredictRequest):
 
 # For local run:
 #   uvicorn app:app --reload
+fix home page HTML emcoding 
