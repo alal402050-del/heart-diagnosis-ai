@@ -38,9 +38,37 @@ class PredictRequest(BaseModel):
     Oldpeak: float = Field(..., ge=-10, le=20)
     ST_Slope: str
 
+from fastapi.responses import HTMLResponse
+
 @app.get("/", response_class=HTMLResponse)
-async def home():
-    return HTMLResponse(_HTML_PAGE)
+def home():
+    html = """
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Heart Diagnosis AI</title>
+<style>
+body{font-family:Arial;background:#0b1220;color:#e8eefc;text-align:center;padding:40px}
+.card{background:#121a2b;padding:25px;border-radius:12px;max-width:700px;margin:auto}
+a{color:#8fb1ff}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>نظام تشخيص أمراض القلب</h1>
+<p>مشروع ذكاء اصطناعي للتنبؤ باحتمالية الإصابة بمرض القلب</p>
+<p><b>تنبيه:</b> هذا النظام لأغراض تعليمية فقط</p>
+<hr>
+<p>
+<a href="/docs">Swagger</a> |
+<a href="/redoc">ReDoc</a>
+</p>
+</div>
+</body>
+</html>
+"""
+    return HTMLResponse(content=html, status_code=200)
 
 @app.post("/predict")
 async def predict(payload: PredictRequest):
